@@ -23,3 +23,6 @@ input {
     background: cornflowerblue;
     border-radius: 5px;
 }
+.input .output{
+resize: none;
+}
