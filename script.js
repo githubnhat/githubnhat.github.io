@@ -45,10 +45,10 @@ listLines.forEach((line) => {
         dot = c;
       }
     });
-    if (dot != "(") {
+    if (dot == "(") {
       temp = dot + temp;
-    }
-    if (dot != " ") {
+      }
+    if (dot != " " && dot != "(") {
       temp += dot;
     }
   
