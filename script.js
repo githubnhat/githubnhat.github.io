@@ -37,24 +37,22 @@ listLines.forEach((line) => {
     }
     shuffle(listChar);
     var temp = "";
-    var dot = "";
+    var listDots = new Array()
     listChar.forEach((c) => {
       if (c != "." && c != "!" && c != "?" && c != "," && c != ":" && c != ";" && c != ")" && c != "(") {
         temp += c;
       } else {
-        dot = c;
+        listDots.push(c);
       }
     });
+    listDots.forEach((dot) => {
     if (dot == "(") {
-       console.log(dot)
       temp = dot + temp;
-      console.log(dot)
       }
     if (dot != " " && dot != "(") {
-       console.log(dot)
       temp += dot;
     }
-  
+    });
     listWordLine.push(temp);
   });
   let temp1='';
