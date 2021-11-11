@@ -1,0 +1,25 @@
+.result {
+    color: black;
+    background-color: blue;
+    height: 100px; 
+    width: 700px
+  }
+h1{
+    text-align: center;
+}
+input {
+    width: 700px;
+    height: 300px;
+}
+.text-input{
+   margin: 10px auto;
+}
+.btn{
+    width: 100px;
+    height: 50px;
+    border-radius: 5px;
+}
+.btn:hover{
+    background: cornflowerblue;
+    border-radius: 5px;
+}
