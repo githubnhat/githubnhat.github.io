@@ -39,12 +39,15 @@ listLines.forEach((line) => {
     var temp = "";
     var dot = "";
     listChar.forEach((c) => {
-      if (c != "." && c != "!" && c != "?" && c != ",") {
+      if (c != "." && c != "!" && c != "?" && c != "," && c != ":" && c != ";" && c != ")" && c != "(") {
         temp += c;
       } else {
         dot = c;
       }
     });
+    if (dot != "(") {
+      temp = dot + temp;
+    }
     if (dot != " ") {
       temp += dot;
     }
