@@ -1,8 +1,3 @@
-var post =
-"Apart from classes in school, I also participate in extra-curricular activities, for example," +
-" going camping, workshops, orientation days. Especially, I join a volleyball club. To play volleyball help" +
-" me maintain health and take my mind off my study.";
-
 
 function shuffle(array) {
 let currentIndex = array.length,
@@ -30,33 +25,38 @@ if (input == " ") {
 }
 console.log(input)
 var result = "";
-var listWordAfterRandom = new Array();
-var listWord = input.split(" ");
-
-listWord.forEach((element) => {
-  var listChar = new Array();
-
-  for (let index = 0; index < element.length; index++) {
-    listChar.push(element.charAt(index));
-  }
-  shuffle(listChar);
-  var temp = "";
-  var dot = "";
-  listChar.forEach((c) => {
-    if (c != "." && c != "!" && c != "?" && c != ",") {
-      temp += c;
-    } else {
-      dot = c;
+var listLines = input.split(/\r\n|\n/);
+listLines.forEach((line) => {
+  var listWordLine = new Array();
+  var listWords = line.split(/\s/);
+  listWords.forEach((element) => {
+    var listChar = new Array();
+  
+    for (let index = 0; index < element.length; index++) {
+      listChar.push(element.charAt(index));
     }
+    shuffle(listChar);
+    var temp = "";
+    var dot = "";
+    listChar.forEach((c) => {
+      if (c != "." && c != "!" && c != "?" && c != ",") {
+        temp += c;
+      } else {
+        dot = c;
+      }
+    });
+    if (dot != " ") {
+      temp += dot;
+    }
+  
+    listWordLine.push(temp);
   });
-  if (dot != " ") {
-    temp += dot;
-  }
-
-  listWordAfterRandom.push(temp);
-});
-listWordAfterRandom.forEach((word) => {
-  result += word + " ";
+  let temp1='';
+  listWordLine.forEach((word) => {
+    temp1 += word + ' ';
+  });
+  result += temp1 + '\n'
+ console.log(result)
 });
 document.querySelector('.output').value = result;
 }
