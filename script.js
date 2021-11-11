@@ -46,9 +46,12 @@ listLines.forEach((line) => {
       }
     });
     if (dot == "(") {
+       console.log(dot)
       temp = dot + temp;
+      console.log(dot)
       }
     if (dot != " " && dot != "(") {
+       console.log(dot)
       temp += dot;
     }
   
