@@ -2,16 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>I Love You</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body { 
             width: 100%; 
-            height: 100dvh; 
+            height: 100dvh; /* Sử dụng Dynamic Viewport Height cho iOS */
             overflow: hidden; 
             background-color: #16000a !important;
-            position: fixed; 
+            position: fixed; /* Chống bounce/scroll trên iPhone */
         }
         .webgl {
             position: fixed;
@@ -23,17 +24,19 @@
         }
         #instruction {
             position: absolute;
-            bottom: calc(8% + env(safe-area-inset-bottom));
+            bottom: calc(15% + env(safe-area-inset-bottom));
             width: 100%;
             text-align: center;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 13px;
             letter-spacing: 2px;
             text-transform: uppercase;
             pointer-events: none;
+            transition: opacity 1s ease;
             z-index: 10;
             font-family: -apple-system, system-ui, sans-serif;
         }
+        button { display: none; }
     </style>
 </head>
 <body>
@@ -55,7 +58,7 @@
             float sign = 2.0* (step(random, 0.5) -.5);
             float t = sign*mod(-uTime * aSpeed* 0.005 + 10.0*aSpeed*aSpeed, M_PI);
             float a = pow(t, 2.0) * pow((t - sign * M_PI), 2.0);
-            float radius = 0.12;
+            float radius = 0.14;
             vec3 myOffset = vec3(radius *16.0 * pow(sin(t), 2.0) * sin(t), radius * (13.0 * cos(t) - 5.0 * cos(2.0 * t) - 2.0 * cos(3.0 * t) - cos(4.0 * t)), .15*(a*(random1 - .5))*sin(abs(10.0*(sin(.2*uTime + .2*random)))*t));
             vec4 modelPosition = modelMatrix * vec4(myOffset, 1.0);
             vec4 viewPosition = viewMatrix * modelPosition;
@@ -115,11 +118,12 @@
                 this.scene = new THREE.Scene();
                 this.scene.background = new THREE.Color(0x16000a);
                 this.clock = new THREE.Clock();
+                
                 this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
                 
-                // Camera cho màn hình dọc 15 Pro Max
-                this.camera = new THREE.PerspectiveCamera(85, window.innerWidth / window.innerHeight, 0.1, 100);
-                this.camera.position.z = 7; // Lùi xa hơn để trái tim nằm trọn trong khung hình dọc
+                // Điều chỉnh Camera FOV cho iPhone màn hình dài
+                this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
+                this.camera.position.z = 5;
 
                 this.parameters = { count: 1500, max: 12.5 * Math.PI };
                 this.time = { current: 0, delta: 0, frequency: 0.0005 };
@@ -143,13 +147,20 @@
             resize() {
                 const width = window.innerWidth;
                 const height = window.innerHeight;
+                
                 this.camera.aspect = width / height;
+                // Tự động điều chỉnh khoảng cách trái tim cho màn hình Pro Max
+                if (width < height) {
+                    this.camera.position.z = 6;
+                } else {
+                    this.camera.position.z = 4.5;
+                }
+                
                 this.camera.updateProjectionMatrix();
                 this.renderer.setSize(width, height);
                 this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             }
 
-            // Sửa lỗi render
             render() {
                 this.renderer.render(this.scene, this.camera);
             }
@@ -170,8 +181,10 @@
                     }
                     if(ins) ins.style.opacity = '0';
                     window.removeEventListener('touchstart', start);
+                    window.removeEventListener('click', start);
                 };
                 window.addEventListener('touchstart', start);
+                window.addEventListener('click', start);
             }
 
             addHeart() {
@@ -242,7 +255,7 @@
                             matcap: new THREE.TextureLoader().load("https://assets.codepen.io/74321/3.png"),
                             color: "#fff"
                         });
-                        this.model.scale.set(0.3, 0.3, 0.3); // Giảm nhẹ tỉ lệ model để vừa mắt hơn trên Pro Max
+                        this.model.scale.set(0.35, 0.35, 0.35);
                         this.scene.add(this.model);
                         res();
                     });
