@@ -232,7 +232,7 @@
                 const listener = new THREE.AudioListener();
                 this.camera.add(listener);
                 this.sound = new THREE.Audio(listener);
-                new THREE.AudioLoader().load("source/music_ji3iak.mp3", (buffer) => {
+                new THREE.AudioLoader().load("https://res.cloudinary.com/dmnxeusyw/video/upload/v1668310333/sharecs.net/music_ji3iak.mp3", (buffer) => {
                     this.sound.setBuffer(buffer);
                     this.sound.play();
                     this.analyser = new THREE.AudioAnalyser(this.sound, 32);
